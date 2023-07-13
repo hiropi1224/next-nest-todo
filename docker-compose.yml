@@ -1,0 +1,15 @@
+version: '3.8' # Docker Composeファイルのバージョンが3.8であることを示す
+services: # 起動するサービスの定義
+  dev-postgres: # サービスの名前
+    image: postgres:14.4-alpine # PostgreSQLの14.4-alpineイメージを使用してコンテナを起動
+    ports: # ホストマシンのポート5434をコンテナのポート5432とマッピング
+      - 5434:5432
+    environment: #  PostgreSQLコンテナ内で使用される環境変数の定義。ユーザ名、パスワード、およびデータベース名を設定
+      POSTGRES_USER: nest
+      POSTGRES_PASSWORD: nest
+      POSTGRES_DB: nest
+    restart: always # コンテナがクラッシュした場合に自動的に再起動
+    networks: # コンテナが参加するネットワークの定義。lessonという名前のネットワークに参加。
+      - lesson
+networks: # 定義されたネットワークのリスト。単一のネットワークlessonが定義されている
+  lesson:
