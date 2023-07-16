@@ -9,3 +9,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email String  @unique // 重複を許可しない
+  hashedPassword String //hash化されたPWを保存
+  tasks Task[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  description String? // 任意
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
